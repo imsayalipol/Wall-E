@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h2>How can I help you?</h2>
+
+    {% if message %}
+    <p class="message">{{ message }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="input-container">
+            <input type="text" id="question" name="question" placeholder="Ask anything">
+
+            <!-- Attach PDF Button -->
+            <label for="pdf-upload" class="attach-button">Attach</label>
+            <input type="file" id="pdf-upload" name="pdf_file" placeholder="{{id}}" accept="application/pdf" hidden>
+
+            <!-- Send Button -->
+            <button type="submit" class="submit-button">Send</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
