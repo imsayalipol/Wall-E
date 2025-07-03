@@ -13,7 +13,7 @@ def upload_file(file_path):
         with open(file_path, "rb") as f:
             file = client.files.create(
                 file=f,
-                purpose="user_file"
+                purpose="user_data"
                 )
         return file.id
     except Exception as e:
@@ -24,28 +24,32 @@ def upload_file(file_path):
 def get_response(question, file_id):
          
     try:
-        response = client.chat,completions.create(
+        response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                input=[
+                messages=[
                     
                         {   "role": "system",
                             "content": "Act as a science teacher and explain to a 7 year old about the book uploaded. Also make sure answers \
-                                        should be only about the subject like science, astronomy, astrophysics, planetary science,cosmology strictly. If asked any other question \
-                                            other than the topic tell them this is not realted to subject"
+                                        should be only about the subject like science, astronomy, astrophysics, planetary science,cosmology strictly.\
+                                        If asked any other question other than the topic tell them this is not realted to subject. Also if only file is\
+                                        uploaded without any uestions asked give summary of uploaded file in 10-15 lines"
                         },
                     
                         {  "role": "user",
                             "content": [
-                                {"type": "input_file", "file_id": file_id},
-                                {"type": "input_text", "text": user}
+                                {"type": "file", "file" : {"file_id": file_id}},
+                                {"type": "text", "text": question}
                             ]
                         }                    
                 ]
             )
 
-        # Print the response
-        return response.choices[0].message.content
-        # return print("WALL-E:", response.output_text)
+        print("@@@@ I reached here now wait @@@")
+        
+        content = response.choices[0].message.content
+        print(content)
+        return content
+        
     except Exception as e:
-        print("Failed to get a response:", e)
+        print(" ##### Failed to get response:", e)
         return None
