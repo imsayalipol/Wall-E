@@ -1,68 +1,116 @@
+/* Reset body */
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f0f2f5;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150vh;
-    margin: 0;
 }
 
-
+/* Outer container */
 .container {
+    background-color: white;
     width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    max-width: 800px;
+    height: 90vh;
+    border: 1px solid #ccc;
     border-radius: 12px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
+/* Chat history area */
+.chat-box {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Messages */
 .message {
-    color: green;
-    margin-bottom: 15px;
+    max-width: 80%;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    line-height: 1.5;
+    font-size: 15px;
 }
 
+.message.user {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+    text-align: right;
+}
+
+.message.bot {
+    align-self: flex-start;
+    background-color: #e9e9eb;
+    text-align: left;
+}
+
+/* Chat input form pinned to bottom */
 .input-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    padding: 12px;
+    border-top: 1px solid #ddd;
     background-color: #fff;
+    gap: 10px;
     border-radius: 20px;
-    padding: 5px 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"] {
+/* Text input */
+#question {
     flex: 1;
-    padding: 12px 15px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    border-radius: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
 }
 
-.attach-button,
-.submit-button {
-    background-color: #007bff;
+/* Attach label */
+.attach-button {
+    padding: 8px 16px;
+    background-color: #918ef7;
     color: white;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 20px;
+    border-radius: 11px;
     font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /*         
+    cursor: pointer;
+    font-size: 18px; */
+}
+
+/* Hidden file input stays hidden */
+input[type="file"] {
+    display: none;
+}
+
+/* Send button */
+.submit-button {
+    padding: 8px 16px;
+    background-color: #918ef7;
+    color: white;
+    border: none;
+    border-radius: 11px;
+    font-size: 14px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.attach-button:hover,
+.attach-button:hover {
+    background-color: #746ff6;
+}
+
 .submit-button:hover {
-    background-color: #0056b3;
+    background-color: #746ff6;
 }

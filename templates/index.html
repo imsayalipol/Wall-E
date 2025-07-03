@@ -1,29 +1,40 @@
 {% extends 'base.html' %}
 
 {% block header %}
-
+<h1 style="color: red">WALL-E</h1>
 {% endblock %}
 
 {% block body %}
-
 <div class="container">
-    <h2>How can I help you?</h2>
+    <h1 style="color: #918ef7; text-align: center; font-family: 'Courier New', Courier, monospace">⋆｡ﾟ🪐｡
+        WALL-E ⋆｡ ﾟ☾ ﾟ｡⋆</h1>
 
-    {% if message %}
-    <p class="message">{{ message }}</p>
-    {% endif %}
-
-    <form method="POST" enctype="multipart/form-data">
+    <!-- Chat Box -->
+    <div class="chat-box" id="chatBox">
+        {% if history %}
+        {% for q, a in history %}
+        {% if q %}
+        <div class="message user">{{ q }}</div>
+        {% endif %}
+        {% if a %}
+        <div class="message bot">{{ a }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" id="chatForm">
         <div class="input-container">
-            <input type="text" id="question" name="question" placeholder="Ask anything">
+            <input type="text" id="question" name="question" placeholder="Ask anything" autocomplete="off">
 
             <!-- Attach PDF Button -->
-            <label for="pdf-upload" class="attach-button">Attach</label>
-            <input type="file" id="pdf-upload" name="pdf_file" placeholder="{{id}}" accept="application/pdf" hidden>
+            <label for="doc-upload" class="attach-button">📎 Attach</label>
+            <input type="file" id="doc-upload" name="doc_file" hidden>
 
             <!-- Send Button -->
             <button type="submit" class="submit-button">Send</button>
         </div>
     </form>
+
 </div>
 {% endblock %}
