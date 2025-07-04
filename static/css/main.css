@@ -9,15 +9,18 @@ body {
     align-items: center;
 
     /* Background wallpaper */
-    background-image: url("/static/space.jpg");
+    background-image: url("/static/walle_space.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
+
 /* Outer container */
 .container {
     background-color: white;
+    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.1);
     width: 100%;
     max-width: 800px;
     height: 90vh;
@@ -41,17 +44,20 @@ body {
 /* Messages */
 .message {
     max-width: 80%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding: 10px 14px;
     border-radius: 16px;
     line-height: 1.5;
     font-size: 15px;
+    word-wrap: break-word;
 }
 
 .message.user {
-    align-self: flex-end;
-    background-color: #dcf8c6;
-    text-align: right;
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #feffff;
+    border-left: 2px solid #00bfff;
+    align-self: flex-start;
+    text-align: left;
 }
 
 .message.bot {
