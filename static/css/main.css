@@ -7,6 +7,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* Background wallpaper */
+    background-image: url("/static/space.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* Outer container */
@@ -78,7 +84,7 @@ body {
 /* Attach label */
 .attach-button {
     padding: 8px 16px;
-    background-color: #918ef7;
+    background-color: #434372;
     color: white;
     border: none;
     border-radius: 11px;
@@ -98,7 +104,7 @@ input[type="file"] {
 /* Send button */
 .submit-button {
     padding: 8px 16px;
-    background-color: #918ef7;
+    background-color: #434372;
     color: white;
     border: none;
     border-radius: 11px;
@@ -108,9 +114,9 @@ input[type="file"] {
 }
 
 .attach-button:hover {
-    background-color: #746ff6;
+    background-color: #646481;
 }
 
 .submit-button:hover {
-    background-color: #746ff6;
+    background-color: #646481;
 }
