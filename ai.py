@@ -20,7 +20,7 @@ def upload_file(file_path):
         print("Error while uploading file:", e)
         return None
 
-# repsonse from GPT       
+# repsonse from GPT  for pdf file      
 def get_response(question, file_id):
          
     try:
@@ -52,8 +52,10 @@ def get_response(question, file_id):
     except Exception as e:
         print(" ##### Failed to get response:", e)
         return None
-    
-def handle_message_only(question):
+ ,
+ 
+# response to text inputs   
+def message_only(question):
     """Answer only if the question is about science/space"""
     try:
         response = client.chat.completions.create(
@@ -61,9 +63,9 @@ def handle_message_only(question):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a science expert. Answer only if the question is related to "
-                               "science, astronomy, astrophysics, planetary science, or cosmology. "
-                               "If not related, say: 'This is unrelated to space or science.'"
+                    "content": "Act as a science teacher and explain to a 7 year old about the book uploaded. Make sure answers \
+                                        should be only about the subject realted to science, maths, astronomy, astrophysics, planetary science,\
+                                        cosmology.If asked anything else, say its unrealted."                       
                 },
                 {
                     "role": "user",
@@ -80,3 +82,30 @@ def handle_message_only(question):
     except Exception as e:
         print("Error handling message:", e)
         return "I can't help with that right now."
+    
+# image analyzer
+def image_upload(url, question):
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": question},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            }
+                        },
+                    ],
+                }
+            ],
+            max_tokens=300,
+        )
+
+        print(response.choices[0])
+    except Exception as e:
+        print("Error while analyzing IMAGE")
+        return None
