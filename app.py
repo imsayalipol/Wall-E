@@ -53,7 +53,8 @@ def index():
                 
                 # only file uploaded and no question
                 else:
-                    prompt = "If this document is about space, otherwise Give a summary for this document in 5 lines, else tell thsi is not relevant to the subject"
+                    prompt = "If this document is about space give a summary for this document in 5 lines, \
+                                else tell this is not relevant to the subject"
                     answer = ai.get_response(prompt, file_id)
             
             # when image is uploaded with or without a question
