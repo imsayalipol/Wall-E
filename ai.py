@@ -52,7 +52,6 @@ def get_response(question, file_id):
     except Exception as e:
         print(" ##### Failed to get response:", e)
         return None
- ,
  
 # response to text inputs   
 def message_only(question):
@@ -72,8 +71,7 @@ def message_only(question):
                     "content": question
                 }
             ]
-        )
-        print("@@@@ I am ONLYYYY QUESTION @@@")
+        )        
         
         content = response.choices[0].message.content
         print(content)
@@ -84,7 +82,7 @@ def message_only(question):
         return "I can't help with that right now."
     
 # image analyzer
-def image_upload(url, question):
+def image_upload(question, base64_image, file_type):
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -96,16 +94,19 @@ def image_upload(url, question):
                         {
                             "type": "image_url",
                             "image_url": {
-                                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                                "url": f"data:image/{file_type};base64,{base64_image}",                                
                             }
                         },
                     ],
                 }
-            ],
-            max_tokens=300,
+            ],            
         )
 
-        print(response.choices[0])
+        content = response.choices[0].message.content
+        print(content)
+        return content
+    
     except Exception as e:
         print("Error while analyzing IMAGE")
+        print(e)
         return None
