@@ -6,8 +6,19 @@
 
 {% block body %}
 <div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-overlay" id="flashMessage">
+        {% for message in messages %}
+        <div class="flash-text">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Chat Box -->
     <h1 style="text-align: center; color: rgb(10, 10, 10)">
-        ⋆｡ﾟ <span style="color: #faf7f7 ; font-family: 'Courier New', Courier, monospace">WALL-E</span> ｡☾
+        ⋆｡ﾟ <span style="color: #faf7f7;font-family: 'Courier New', Courier, monospace">WALL-E</span> ｡☾
     </h1>
 
     <!-- Chat Box -->
@@ -38,4 +49,19 @@
     </form>
 
 </div>
+
+
+<!-- JS to auto-fade flash message -->
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        const flash = document.getElementById("flashMessage");
+        if (flash) {
+            setTimeout(() => {
+                flash.style.opacity = "0";
+                setTimeout(() => flash.remove(), 1000); // remove from DOM after fade
+            }, 3000);
+        }
+    });
+</script>
+
 {% endblock %}
