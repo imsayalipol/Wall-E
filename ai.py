@@ -8,7 +8,7 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
-SYSTEM_PROMPT = """Act as a science teacher and explain things to a 10-year-old.
+SYSTEM_PROMPT = """Your name is WALL-E. Act as a science teacher and explain things to a 10-year-old.
 Only respond about topics related to science, math, astronomy, astrophysics,
 planetary science, and cosmology. If asked anything else, say it's unrelated."""
 
@@ -71,7 +71,7 @@ def message_only(question):
         )        
         
         content = response.choices[0].message.content
-        # print(content)
+        print(content)
         return content
     
     except Exception as e:
@@ -103,7 +103,6 @@ def image_upload(question, base64_image, file_ext):
         # print(content)
         return content
     
-    except Exception as e:
-        print("Error while analyzing IMAGE")
+    except Exception as e:        
         print(e)
         return "Error analyzing image"
