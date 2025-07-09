@@ -21,7 +21,7 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-def handle_pdf_upload(message=None, document):
+def handle_pdf_upload(message, document):
     filename = secure_filename(document.filename)
     document_path = os.path.join(UPLOAD_FOLDER, filename)
     document.save(document_path)            
@@ -34,24 +34,25 @@ def handle_pdf_upload(message=None, document):
         session.modified = True                     
                 
     # user also sends message with file
-    if file_id and message:                    
+    if file_id and message:                  
         return ai.get_response(message,file_id)                
     # only file uploaded and no question
     else:
-        prompt = "If this document is about space give a summary for this document in 5 lines, \
-                    else tell this is not relevant to the subject"
+        prompt = '''If this document is about space give a summary for this document in 5 lines, 
+                    else tell this is not relevant to the subject'''
         return ai.get_response(prompt, file_id)
 
-def handle_image_upload(message=None, document, file_ext):
+def handle_image_upload(message, document, file_ext):
     filename = secure_filename(document.filename)
     image_path = os.path.join(IMAGE_FOLDER, filename)
     document.save(image_path)                
     base64_image = encode_image(image_path)     
     
     if message:
-        return ai.image_upload(question, base64_image, file_ext)
+        return ai.image_upload(message, base64_image, file_ext)
     else:
-        prompt = "Tell me what this image is about. And if its unrelated to space say its unrelevant to the topic"
+        prompt = '''Tell me what this image is about. And if its unrelated to space 
+                    say its unrelevant to the topic'''
         return ai.image_upload(prompt, base64_image, file_ext)        
             
                
@@ -62,22 +63,17 @@ def index():
         
     if request.method == 'POST':
         message=request.form.get('question')
-        document = request.files('doc_file')
-                
+        document = request.files.get('doc_file')                                              
         # if user uploads file for the first time
         if document and allowed_file(document.filename):                        
-            file_ext = (document.filename).rsplit('.', 1)[1].lower()             
-            
-            if file_ext == "pdf":
+            file_ext = (document.filename).rsplit('.', 1)[1].lower()                  
+            if file_ext == "pdf":                    
                 answer = handle_pdf_upload(message, document)                           
-            elif file_ext in {'png', 'jpg', 'jpeg', 'webp'}:
-                answer = handle_image_upload(message, document, file_ext)
             else:
-                flash("Unsupported file type")  
-                return redirect('/')                                          
-
+                if file_ext in {'png', 'jpg', 'jpeg', 'webp'}:                
+                    answer = handle_image_upload(message, document, file_ext)        
         # file  already uploaded + ask questions about it    
-        elif 'uploaded_file_id' in session and message :            
+        elif 'uploaded_file_id' in session and message :                         
             file_id =  session['uploaded_file_id']
             answer = ai.get_response(message, file_id)   
                         
@@ -85,9 +81,12 @@ def index():
         elif  message:
             answer = ai.message_only(message)                                      
         
-        else:        
-            flash("Please upload a file or ask a question.")
+        else:
+            flash("Invalid input received")
             return redirect('/')
+        session['history'].append((message, answer))
+        session.modified = True
+        return render_template('index.html', history=session['history'])
     
     return render_template('index.html', history=session.get('history', []))
     
