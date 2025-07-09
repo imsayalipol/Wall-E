@@ -21,7 +21,7 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-def pdf_upload(message=None, document):
+def handle_pdf_upload(message=None, document):
     filename = secure_filename(document.filename)
     document_path = os.path.join(UPLOAD_FOLDER, filename)
     document.save(document_path)            
@@ -42,7 +42,7 @@ def pdf_upload(message=None, document):
                     else tell this is not relevant to the subject"
         return ai.get_response(prompt, file_id)
 
-def image_upload(message=None, document, file_ext):
+def handle_image_upload(message=None, document, file_ext):
     filename = secure_filename(document.filename)
     image_path = os.path.join(IMAGE_FOLDER, filename)
     document.save(image_path)                
@@ -61,17 +61,17 @@ def index():
         session['history'] = []
         
     if request.method == 'POST':
-        message=request.form['question']
-        document = request.files['doc_file']
+        message=request.form.get('question')
+        document = request.files('doc_file')
                 
         # if user uploads file for the first time
         if document and allowed_file(document.filename):                        
             file_ext = (document.filename).rsplit('.', 1)[1].lower()             
             
             if file_ext == "pdf":
-                answer = pdf_upload(message, document)                           
+                answer = handle_pdf_upload(message, document)                           
             elif file_ext in {'png', 'jpg', 'jpeg', 'webp'}:
-                answer = image_upload(message, document, file_ext)
+                answer = handle_image_upload(message, document, file_ext)
             else:
                 flash("Unsupported file type")  
                 return redirect('/')                                          
